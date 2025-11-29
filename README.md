@@ -1,88 +1,40 @@
-# AI Pitching Analysis System
+# AI Pitching Analysis System (Developer Guide)
 
-## Project Overview
+這是我們「AI 投球教練」專案的開發者文件。請按照以下步驟在你的本機電腦上建置開發環境。
 
-The AI Pitching Analysis System is a web-based application designed to automate the biomechanical assessment of baseball pitchers. By integrating computer vision (MediaPipe) and Large Language Models (Google Gemini API), the system analyzes video footage to extract key kinematic indicators and generates expert-level, actionable feedback.
+## 事前準備 (Prerequisites)
 
-This project demonstrates a full-stack implementation, featuring a robust asynchronous backend architecture to handle computationally intensive AI inference tasks while maintaining a responsive user interface.
+在開始之前，請確保你的電腦已安裝：
 
-## Key Features
+* **Python 3.8 或以上版本**: [下載 Python](https://www.python.org/downloads/)
+* **Git**: [下載 Git](https://git-scm.com/)
+* **Visual Studio Code** (推薦使用的編輯器)
 
-* **Automated Keyframe Detection**: Utilizes MediaPipe Pose Landmarker to identify critical pitching phases, including Peak Leg Lift, Foot Plant, Maximum External Rotation, and Ball Release.
-* **Biomechanical Analysis**: Calculates joint angles and spatial relationships (e.g., knee flexion, shoulder abduction, stride length) with high precision using vector mathematics.
-* **Generative AI Reporting**: Integrates Google Gemini 1.5 Flash to synthesize raw kinematic data into structured, professional coaching reports in Markdown format.
-* **Asynchronous Processing Pipeline**: Implements a non-blocking architecture using Python threading, allowing for immediate file upload acknowledgment and background AI processing.
-* **Cloud-Native Storage**: Leverages Google Cloud Storage (GCS) for scalable, secure, and stream-based video management.
-* **Video Library Management**: Provides a comprehensive interface for searching, filtering, and managing historical analysis records.
+---
 
-## Technical Architecture
+## 安裝步驟 (Installation)
 
-The system follows a decoupled client-server architecture designed for scalability and maintainability.
+### 1. Clone 專案
+打開終端機 (Terminal) 或 VS Code，執行以下指令將專案下載到本地：
 
-### Backend
-* **Framework**: Python Flask
-* **Database**: SQLite with SQLAlchemy ORM (for metadata and analysis results)
-* **Concurrency**: Python `threading` module for background task execution.
-* **API Design**: RESTful endpoints for file upload and data retrieval.
-
-### Frontend
-* **Core**: HTML5, JavaScript (ES6+)
-* **Styling**: Tailwind CSS for responsive and modern UI design.
-* **Interaction**: Fetch API for asynchronous data transmission and dynamic DOM updates.
-
-### AI & Machine Learning
-* **Computer Vision**: Google MediaPipe Pose (Full body landmark detection).
-* **Generative AI**: Google Gemini API (Multimodal input processing).
-* **Data Processing**: OpenCV and NumPy for video frame manipulation and vector calculation.
-
-### Infrastructure
-* **Storage**: Google Cloud Storage (GCS) for object storage.
-
-## Installation and Setup
-
-Follow these steps to set up the project locally for development or testing.
-
-### 1. Clone the Repository
 ```bash
-git clone [https://github.com/YOUR_USERNAME/ai-pitching-coach.git](https://github.com/YOUR_USERNAME/ai-pitching-coach.git)
+git clone [https://github.com/s1311332041/ai-pitching-coach.git](https://github.com/s1311332041/ai-pitching-coach.git)
 cd ai-pitching-coach
-2. Environment Setup
-It is recommended to use a virtual environment to manage dependencies.
+```
+### 2. 建立虛擬環境 (Virtual Environment)
+為了避免套件衝突，請務必建立虛擬環境。
 
-Bash
-
-# Create virtual environment
+```bash
+# 建立環境
 python -m venv venv
 
-# Activate virtual environment (Windows)
+# 啟用環境 (請在 cmd 執行，若用 PowerShell 請參閱下方疑難排解)
 venv\Scripts\activate
+```
+注意： 啟用成功後，你的終端機前面會出現 (venv) 字樣。接下來的所有指令都要在 (venv) 狀態下執行。
 
-# Activate virtual environment (macOS/Linux)
-source venv/bin/activate
-3. Install Dependencies
-Bash
+### 3. 安裝依賴套件
 
+```bash
 pip install -r requirements.txt
-4. Configuration
-You must configure the necessary API keys and credentials before running the application.
-
-Google Cloud Storage: Place your Service Account JSON key file in the project root (e.g., keyfile.json) and set the GOOGLE_APPLICATION_CREDENTIALS environment variable.
-
-Gemini API: Set your API key in the environment variables or configuration file.
-
-5. Run the Application
-Bash
-
-python app.py
-The server will start at http://127.0.0.1:5000.
-
-Project Structure
-app.py: Main entry point for the Flask application, defining routes and background thread management.
-
-analysis_model.py: Encapsulates the core AI logic, including MediaPipe inference, keyframe extraction algorithms, and Gemini API interaction.
-
-models/: Directory containing MediaPipe task files.
-
-templates/: HTML templates for the frontend interface.
-
-static/: Static assets including CSS and JavaScript files.
+```
