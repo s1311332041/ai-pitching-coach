@@ -32,3 +32,5 @@ venv.txt
 
 # 忽略特定的主程式檔案
 main.py
+function.py
+toJson.py
