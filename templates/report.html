@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Fitness Coach - Analysis Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script> 
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Scrollbar Styles (Dark Theme) */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-8 md:px-12 lg:px-20 xl:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[1280px] flex-1">
+    
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-4 sm:px-6 md:px-10 py-3">
+    <div class="flex items-center gap-4 text-white">
+        <div class="size-6 text-primary">
+            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path clip-rule="evenodd" d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z" fill="currentColor" fill-rule="evenodd"></path>
+            </svg>
+        </div>
+        <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AI Fitness Coach</h2>
+    </div>
+    <div class="flex items-center gap-2">
+        <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-white/10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-white/20 transition-colors">
+            <span class="material-symbols-outlined text-lg">share</span>
+        </button>
+        <a href="{{ url_for('library') }}" class="hidden md:flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-primary/20 text-primary gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4 hover:bg-primary/30 transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            <span>Back to Library</span>
+        </a>
+    </div>
+</header>
+
+<main class="flex flex-col gap-4 p-4 sm:p-6 md:p-8 flex-1">
+    <div class="flex flex-col gap-4 flex-1">
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <a class="text-white/60 text-base font-medium leading-normal hover:text-white transition-colors" href="{{ url_for('library') }}">Library</a>
+                <span class="text-white/60 text-base font-medium leading-normal">/</span>
+                <span class="text-white text-base font-medium leading-normal">Report</span>
+            </div>
+            <h1 class="text-white tracking-tight text-[32px] font-bold leading-tight text-left">
+                {{ video.display_name }}
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1" style="max-height: 70vh;"> <div class="flex flex-col gap-4 h-full">
+                <div class="relative flex items-center justify-center bg-black rounded-xl overflow-hidden aspect-video w-full h-full border border-white/10">
+                    {% if video.filepath %}
+                        <video controls class="w-full h-full object-contain">
+                            <source src="{{ video.filepath }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+                        <div class="text-white/60 flex flex-col items-center gap-2">
+                            <span class="material-symbols-outlined text-4xl">error</span>
+                            <p>Invalid Video Path</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="flex flex-col rounded-xl bg-white/5 border border-white/10 h-full overflow-hidden">
+                <div class="p-6 shrink-0 bg-[#101c22]">
+                    <h3 class="text-lg font-bold text-white mb-1">AI Analysis Report</h3>
+                    <div class="flex border-b border-white/10">
+                        <button class="py-3 px-4 text-sm font-semibold text-primary border-b-2 border-primary">Breakdown</button>
+                        <!-- <button class="py-3 px-4 text-sm font-medium text-white/60 hover:text-white transition-colors cursor-not-allowed opacity-50">Suggestions</button> -->
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto px-6 pb-6 pr-4 custom-scrollbar">
+                    
+                    {% if video.status == 'COMPLETED' %}
+                        <div class="prose prose-invert max-w-none text-sm leading-relaxed text-white/90
+                                    prose-headings:text-white prose-headings:font-bold prose-headings:mt-4 prose-headings:mb-2
+                                    prose-p:text-white/80 prose-p:my-2
+                                    prose-strong:text-primary prose-strong:font-bold
+                                    prose-ul:list-disc prose-ul:pl-4 prose-li:my-1">
+                            
+                            {{ report_html | safe }}
+                            
+                        </div>
+                    
+                    {% elif video.status == 'FAILED' %}
+                        <div class="flex flex-col items-center justify-center h-full text-red-400 gap-3 p-4">
+                            <span class="material-symbols-outlined text-5xl">error</span>
+                            <h3 class="text-lg font-bold">Analysis Failed</h3>
+                            <div class="bg-red-900/20 border border-red-900/50 p-3 rounded-lg text-xs text-red-200 break-all w-full">
+                                {{ report_html | safe }}
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="flex flex-col items-center justify-center h-full text-primary gap-4">
+                            <span class="material-symbols-outlined text-6xl animate-spin">sync</span>
+                            <div class="text-center">
+                                <strong class="text-xl font-bold text-white">AI Analysis in Progress...</strong>
+                                <p class="text-white/60 text-sm mt-2">Please wait, this page will refresh automatically.</p>
+                            </div>
+                            <meta http-equiv="refresh" content="15">
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

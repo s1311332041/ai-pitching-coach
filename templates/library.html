@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Fitness Coach - Video Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#111618",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {
+                "DEFAULT": "0.5rem",
+                "lg": "1rem",
+                "xl": "1.5rem",
+                "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-white">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-b-[#283339] px-10 py-3 sticky top-0 bg-background-light dark:bg-background-dark z-10">
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-4 text-gray-800 dark:text-white">
+                        <div class="size-6 text-primary">
+                            <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">AI Fitness Coach</h2>
+                    </div>
+                </div>
+                <div class="flex flex-1 justify-center items-center gap-9">
+                    <a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary" href="{{ url_for('index') }}">Home</a>
+                    <a class="text-sm font-bold text-primary" href="{{ url_for('library') }}">Library</a>
+                    <a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary" href="#">Profile</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="{{ url_for('index') }}" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                        <span class="truncate">Upload Video</span>
+                    </a>
+                </div>
+            </header>
+
+            <main class="px-4 md:px-10 lg:px-20 xl:px-40 py-5 flex flex-1 justify-center">
+                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+                    
+                    <div class="flex flex-wrap justify-between items-center gap-4 p-4">
+                        <div class="flex min-w-72 flex-col gap-2">
+                            <p class="text-3xl lg:text-4xl font-black leading-tight tracking-[-0.033em] text-gray-900 dark:text-white">My Video Library</p>
+                            <p class="text-base font-normal leading-normal text-gray-500 dark:text-[#9db0b9]">View and manage your uploaded workout videos.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-4 p-4 items-center">
+                        <form action="{{ url_for('library') }}" method="GET" class="flex-grow w-full md:w-auto">
+                            <label class="flex flex-col h-12 w-full">
+                                <div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm transition-shadow focus-within:shadow-md">
+                                    <div class="text-gray-400 dark:text-gray-500 flex bg-white dark:bg-[#182329] items-center justify-center pl-4 rounded-l-xl border-y border-l border-gray-200 dark:border-gray-700">
+                                        <span class="material-symbols-outlined text-[1.25rem]">search</span>
+                                    </div>
+                                    <input name="search" 
+                                           class="flex w-full min-w-0 flex-1 resize-none overflow-hidden text-gray-800 dark:text-white bg-white dark:bg-[#182329] h-full placeholder:text-gray-400 dark:placeholder:text-gray-500 px-3 text-base font-normal leading-normal border-y border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-primary dark:focus:border-primary transition-colors" 
+                                           placeholder="Search by video title..." 
+                                           value="{{ search_term or '' }}"/>
+                                    <button type="submit" class="flex h-full shrink-0 items-center justify-center rounded-r-xl bg-primary text-white px-6 text-sm font-bold hover:bg-primary/90 transition-colors border-y border-r border-primary">
+                                        Search
+                                    </button>
+                                </div>
+                            </label>
+                        </form>
+                    </div>
+
+                    <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6 p-4">
+                        {% if pagination.items %}
+                            {% for video in pagination.items %}
+                            <div class="flex flex-col gap-3 pb-3 rounded-lg overflow-hidden group transform transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20 bg-white dark:bg-[#182329] border border-gray-100 dark:border-gray-800">
+                                
+                                <a href="{{ url_for('view_report', video_id=video.id) }}" class="relative block aspect-video bg-gray-200 dark:bg-gray-900">
+                                    <video class="w-full h-full object-cover"
+                                           src="{{ video.filepath }}#t=0.1"
+                                           preload="metadata"
+                                           muted>
+                                    </video>
+                                    
+                                    <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <span class="material-symbols-outlined text-white text-6xl drop-shadow-lg">play_circle</span>
+                                    </div>
+
+                                    <div class="absolute top-2 left-2">
+                                        {% if video.status == 'PROCESSING' %}
+                                            <span class="px-2 py-1 rounded bg-blue-500/90 text-white text-xs font-bold shadow-sm backdrop-blur-sm">
+                                                Analyzing...
+                                            </span>
+                                        {% elif video.status == 'FAILED' %}
+                                            <span class="px-2 py-1 rounded bg-red-500/90 text-white text-xs font-bold shadow-sm backdrop-blur-sm">
+                                                Failed
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            
+                                <div class="px-4 pb-2 flex flex-col gap-1">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <p class="text-base font-bold leading-tight text-gray-900 dark:text-white truncate flex-1 pt-1" title="{{ video.display_name }}">
+                                            {{ video.display_name }}
+                                        </p>
+                                    
+                                        <form action="{{ url_for('delete_video', video_id=video.id) }}" method="POST" 
+                                              class="shrink-0"
+                                              onsubmit="return confirm('Warning: Are you sure you want to permanently delete this video?\n\nThis will delete:\n1. The cloud video file\n2. The AI analysis report\n\nThis action cannot be undone.');">
+                                            <button type="submit" class="p-1.5 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors duration-200" title="Delete Video">
+                                                <span class="material-symbols-outlined text-[1.25rem]">delete</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <p class="text-sm font-normal text-gray-500 dark:text-[#9db0b9]">
+                                        Uploaded: {{ video.upload_time.strftime('%Y-%m-%d') }}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        
+                        {% else %}
+                            <div class="col-span-full flex flex-col items-center justify-center py-20 bg-gray-50 dark:bg-[#182329] rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700">
+                                <span class="material-symbols-outlined text-7xl text-gray-400 dark:text-gray-600">videocam_off</span>
+                                <p class="mt-4 text-xl font-bold text-gray-800 dark:text-white">
+                                    {% if search_term %}
+                                        No videos found matching "{{ search_term }}"
+                                    {% else %}
+                                        Your library is empty
+                                    {% endif %}
+                                </p>
+                                <p class="mt-2 text-base text-gray-500 dark:text-[#9db0b9]">Upload your first video to start AI analysis.</p>
+
+                                <a href="{{ url_for('index') }}" class="mt-6 px-6 py-2.5 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                                    Upload New Video
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if pagination.pages > 1 %}
+                    <div class="flex justify-center p-4 mt-8">
+                        <nav aria-label="Pagination">
+                            <ul class="inline-flex items-center space-x-2">
+                                <li>
+                                    <a href="{{ url_for('library', page=pagination.prev_num, search=search_term) if pagination.has_prev else '#' }}" 
+                                       class="flex items-center justify-center px-3 h-8 text-sm font-medium rounded-md border 
+                                              {{ 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#283339] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white' if pagination.has_prev else 'text-gray-300 bg-gray-100 border-gray-200 cursor-not-allowed dark:bg-gray-800 dark:border-gray-800 dark:text-gray-600' }}">
+                                        <span class="material-symbols-outlined text-base">chevron_left</span>
+                                        <span>Prev</span>
+                                    </a>
+                                </li>
+
+                                {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                                    <li>
+                                        {% if page_num %}
+                                            {% if page_num == pagination.page %}
+                                                <span class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-primary border border-primary rounded-md">
+                                                    {{ page_num }}
+                                                </span>
+                                            {% else %}
+                                                <a href="{{ url_for('library', page=page_num, search=search_term) }}" 
+                                                   class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:bg-[#283339] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                    {{ page_num }}
+                                                </a>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                ...
+                                            </span>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+
+                                <li>
+                                    <a href="{{ url_for('library', page=pagination.next_num, search=search_term) if pagination.has_next else '#' }}" 
+                                       class="flex items-center justify-center px-3 h-8 text-sm font-medium rounded-md border
+                                              {{ 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#283339] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white' if pagination.has_next else 'text-gray-300 bg-gray-100 border-gray-200 cursor-not-allowed dark:bg-gray-800 dark:border-gray-800 dark:text-gray-600' }}">
+                                        <span>Next</span>
+                                        <span class="material-symbols-outlined text-base">chevron_right</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </main>
+            <footer class="text-center p-4 text-gray-500 dark:text-gray-400 text-xs">
+                <a class="hover:text-primary" href="#">Terms of Service</a> | <a class="hover:text-primary" href="#">Privacy Policy</a> | <a class="hover:text-primary" href="#">Contact Us</a>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
