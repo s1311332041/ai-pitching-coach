@@ -22,7 +22,6 @@ git clone [https://github.com/s1311332041/ai-pitching-coach.git](https://github.
 cd ai-pitching-coach
 ```
 ### 2. 建立虛擬環境 (Virtual Environment)
-為了避免套件衝突，請務必建立虛擬環境。
 
 ```bash
 # 建立環境
