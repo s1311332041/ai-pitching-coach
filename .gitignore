@@ -1,36 +1,19 @@
-# 忽略 Python 編譯檔
 __pycache__/
 *.py[cod]
-
-# 忽略虛擬環境 (非常重要，不要上傳 venv)
 venv/
 env/
 .env
-
-# 忽略敏感金鑰檔案 (絕對不能上傳)
 keyfile.json
 *.json
 !package.json
-
-# 忽略本地資料庫
 database.db
 instance/
-
-# 忽略 IDE 設定
 .vscode/
 .idea/
-
-# 忽略暫存檔
 uploads/
 temp/
-
-# 忽略大型模型檔案 (GitHub 有 100MB 限制，建議不要上傳這些 .task 檔)
 models/
-
-# 忽略特定的 txt 檔案
 venv.txt
-
-# 忽略特定的主程式檔案
 main.py
 function.py
 toJson.py
